@@ -270,8 +270,13 @@ void PlayerController::update(float dt)
         m_controls->setAccel(0.0f);
         return;
     }
-
-    if (World::getWorld()->isStartPhase())
+	/*
+	if (World::getWorld()->isRacePhase() && !m_controls->getRescue() && !m_kart->getKartAnimation())
+	{
+		m_controls->setAccel(200.0f);
+	}
+	*/
+    if (World::getWorld()->isStartPhase() )
     {
         if (m_controls->getAccel() || m_controls->getBrake()||
             m_controls->getFire()  || m_controls->getNitro())
@@ -279,15 +284,16 @@ void PlayerController::update(float dt)
             // Only give penalty time in SET_PHASE.
             // Penalty time check makes sure it doesn't get rendered on every
             // update.
-            if (m_penalty_time == 0.0 &&
+		
+			if (m_penalty_time == 0.0 &&
                 World::getWorld()->getPhase() == WorldStatus::SET_PHASE)
             {
                 displayPenaltyWarning();
                 m_penalty_time = stk_config->m_penalty_time;
             }   // if penalty_time = 0
-
-            m_controls->setBrake(false);
-            m_controls->setAccel(0.0f);
+			
+			m_controls->setBrake(false);
+            m_controls->setAccel(32767.0f);
         }   // if key pressed
 
         return;

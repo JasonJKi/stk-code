@@ -67,9 +67,13 @@ void TrackInfoScreen::loadedFromFile()
 {
     m_lap_spinner     = getWidget<SpinnerWidget>("lap-spinner");
     m_ai_kart_spinner = getWidget<SpinnerWidget>("ai-spinner");
-    m_option          = getWidget<CheckBoxWidget>("option");
+
+	m_option	= getWidget<CheckBoxWidget>("option");
+	m_bci = getWidget<CheckBoxWidget>("bci");
+
     m_record_race     = getWidget<CheckBoxWidget>("record");
     m_option->setState(false);
+	m_bci->setState(false);
     m_record_race->setState(false);
 
     m_highscore_label = getWidget<LabelWidget>("highscores");
@@ -198,6 +202,7 @@ void TrackInfoScreen::init()
     }   // has_AI
     else
         race_manager->setNumKarts(local_players);
+	
 
     // Reverse track or random item in arena
     // -------------
@@ -224,6 +229,11 @@ void TrackInfoScreen::init()
     }
     else
         m_option->setState(false);
+
+	// BCI Mode
+	m_bci->setVisible(1);
+	getWidget<LabelWidget>("bci-text")->setVisible(1);
+	getWidget<LabelWidget>("bci-text")->setText(_("BCI"), false);
 
     // Record race or not
     // -------------
@@ -410,6 +420,9 @@ void TrackInfoScreen::eventCallback(Widget* widget, const std::string& name,
             updateHighScores();
         }
     }
+	else if (name == "bci") {
+		race_manager->setBCI(m_bci->getState());
+	}
     else if (name == "record")
     {
         const bool record = m_record_race->getState();

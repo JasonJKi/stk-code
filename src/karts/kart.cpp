@@ -897,7 +897,8 @@ void Kart::finishedRace(float time, bool from_server)
     if ((race_manager->getMinorMode() == RaceManager::MINOR_MODE_NORMAL_RACE ||
          race_manager->getMinorMode() == RaceManager::MINOR_MODE_TIME_TRIAL  ||
          race_manager->getMinorMode() == RaceManager::MINOR_MODE_FOLLOW_LEADER)
-         && m_controller->isPlayerController())
+         && (m_controller->isPlayerController() || race_manager->hasBCI())		
+		)
     {
         RaceGUIBase* m = World::getWorld()->getRaceGUI();
         if (m)
@@ -943,7 +944,7 @@ void Kart::setRaceResult()
     if (race_manager->getMinorMode() == RaceManager::MINOR_MODE_NORMAL_RACE ||
         race_manager->getMinorMode() == RaceManager::MINOR_MODE_TIME_TRIAL)
     {
-        if (m_controller->isLocalPlayerController()) // if player is on this computer
+        if (m_controller->isLocalPlayerController() || race_manager->hasBCI()) // if player is on this computer
         {
             PlayerProfile *player = PlayerManager::getCurrentPlayer();
             const ChallengeStatus *challenge = player->getCurrentChallengeStatus();

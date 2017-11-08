@@ -56,6 +56,9 @@ class TrackInfoScreen : public GUIEngine::Screen,
 
     /** Check box for reverse mode or random item in arena. */
     GUIEngine::CheckBoxWidget* m_option;
+	
+	/** Check box to activate bci. */
+	GUIEngine::CheckBoxWidget* m_bci;
 
     /** Check box for record race. */
     GUIEngine::CheckBoxWidget* m_record_race;

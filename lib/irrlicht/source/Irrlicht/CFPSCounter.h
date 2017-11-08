@@ -33,6 +33,8 @@ public:
 	//! to be called every frame
 	void registerFrame(u32 now, u32 primitive);
 
+	u32 getFrame() const;
+
 private:
 
 	s32 FPS;

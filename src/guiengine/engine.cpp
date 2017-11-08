@@ -721,7 +721,7 @@ namespace GUIEngine
     PtrVector<Screen, REF> g_loaded_screens;
 
     float dt = 0;
-
+	float race_frame;
     // -----------------------------------------------------------------------
     float getLatestDt()
     {

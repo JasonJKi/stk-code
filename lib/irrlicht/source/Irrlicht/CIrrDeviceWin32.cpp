@@ -1227,6 +1227,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     case WM_ACTIVATE:
         // we need to take care for screen changes, e.g. Alt-Tab
         dev = getDeviceFromHWnd(hWnd);
+		/*
         if (dev && dev->isFullscreen())
         {
             if ((wParam&0xFF)==WA_INACTIVE)
@@ -1245,6 +1246,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 dev->switchToFullScreen();
             }
         }
+		*/
         event.EventType = irr::EET_IMPUT_METHOD_EVENT;
         event.InputMethodEvent.Event = irr::EIME_CHANGE_POS;
         event.InputMethodEvent.Handle = hWnd;

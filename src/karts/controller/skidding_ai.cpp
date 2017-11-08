@@ -1484,6 +1484,7 @@ void SkiddingAI::computeNearestKarts()
             -m_world->getOverallDistance(m_kart_behind->getWorldKartId());
     }
 
+	/*
     // Compute distance to nearest player kart
     float max_overall_distance = 0.0f;
     unsigned int n = ProfileWorld::isProfileMode()
@@ -1497,6 +1498,9 @@ void SkiddingAI::computeNearestKarts()
     }
     if(max_overall_distance==0.0f)
         max_overall_distance = 999999.9f;   // force best driving
+		*/
+	float max_overall_distance = 999999.9f;   // force best driving
+
     // Now convert 'maximum overall distance' to distance to player.
     m_distance_to_player =
                 m_world->getOverallDistance(m_kart->getWorldKartId())

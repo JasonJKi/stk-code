@@ -38,6 +38,7 @@
 #include "karts/controller/soccer_ai.hpp"
 #include "karts/controller/end_controller.hpp"
 #include "karts/controller/local_player_controller.hpp"
+#include "karts/controller/local_player_controller_ai.hpp"
 #include "karts/controller/skidding_ai.hpp"
 #include "karts/controller/spare_tire_ai.hpp"
 #include "karts/controller/test_ai.hpp"
@@ -356,10 +357,15 @@ AbstractKart *World::createKart(const std::string &kart_ident, int index,
     switch(kart_type)
     {
     case RaceManager::KT_PLAYER:
-        controller = new LocalPlayerController(new_kart,
-                         StateManager::get()->getActivePlayer(local_player_id));
-        m_num_players ++;
-        break;
+		if (race_manager->hasBCI()) {
+			controller = new LocalPlayerControllerAI(new_kart,
+				StateManager::get()->getActivePlayer(local_player_id));
+		} else {
+			controller = new LocalPlayerController(new_kart,
+				StateManager::get()->getActivePlayer(local_player_id));
+		}
+		m_num_players ++;
+		break;
     case RaceManager::KT_NETWORK_PLAYER:
         controller = new NetworkPlayerController(new_kart);
         m_num_players++;

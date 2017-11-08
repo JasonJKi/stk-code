@@ -70,6 +70,11 @@ void CFPSCounter::registerFrame(u32 now, u32 primitivesDrawn)
 	}
 }
 
+u32 CFPSCounter::getFrame() const
+{
+	return FramesCounted;
+}
+
 
 } // end namespace video
 } // end namespace irr

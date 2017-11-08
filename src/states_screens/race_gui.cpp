@@ -157,7 +157,7 @@ void RaceGUI::init()
     // Technically we only need getNumLocalPlayers, but using the
     // global kart id to find the data for a specific kart.
     int n = race_manager->getNumberOfKarts();
-
+	frameCount = 0;
     m_animation_states.resize(n);
     m_rank_animation_duration.resize(n);
     m_last_ranks.resize(n);
@@ -188,6 +188,15 @@ void RaceGUI::renderGlobal(float dt)
     RaceGUIBase::renderGlobal(dt);
     cleanupMessages(dt);
 
+	static video::SColor flash;
+	flash = video::SColor(255, 0, 0, 0);
+
+	GL32_draw2DRectangle(flash,
+		core::rect<s32>(irr_driver->getActualScreenSize().Width - irr_driver->getActualScreenSize().Width / 30,
+			0,
+			irr_driver->getActualScreenSize().Width,
+			irr_driver->getActualScreenSize().Height / 25));
+
     // Special case : when 3 players play, use 4th window to display such
     // stuff (but we must clear it)
     if (race_manager->getNumLocalPlayers() == 3 &&
@@ -210,11 +219,9 @@ void RaceGUI::renderGlobal(float dt)
     }
     if(world->getPhase() == World::GOAL_PHASE)
             drawGlobalGoal();
-
     // Timer etc. are not displayed unless the game is actually started.
     if(!world->isRacePhase()) return;
     if (!m_enabled) return;
-
 
     if (!m_is_tutorial)
     {
@@ -233,6 +240,18 @@ void RaceGUI::renderGlobal(float dt)
 
     if (!m_is_tutorial)               drawGlobalPlayerIcons(m_map_height);
     if(Track::getCurrentTrack()->isSoccer()) drawScores();
+
+	frameCount++;
+	if (frameCount == 1 || (frameCount % 20) < 4) {
+		flash = video::SColor(255, 255, 255, 255);
+		GL32_draw2DRectangle(flash,
+			core::rect<s32>(irr_driver->getActualScreenSize().Width - irr_driver->getActualScreenSize().Width / 30,
+				0,
+				irr_driver->getActualScreenSize().Width,
+				irr_driver->getActualScreenSize().Height / 25));
+	}
+	
+
 #endif
 }   // renderGlobal
 

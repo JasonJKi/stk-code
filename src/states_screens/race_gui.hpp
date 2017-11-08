@@ -114,6 +114,9 @@ private:
     void drawGlobalTimer       ();
     void drawScores();
 
+	/** Height of the digit font. */
+	int              frameCount;
+
 
 public:
 
