@@ -72,7 +72,7 @@ void TrackInfoScreen::loadedFromFile()
 	m_bci = getWidget<CheckBoxWidget>("bci");
 
     m_record_race     = getWidget<CheckBoxWidget>("record");
-    m_option->setState(false);
+    //m_option->setState(false);
 	m_bci->setState(false);
     m_record_race->setState(false);
 
@@ -203,13 +203,13 @@ void TrackInfoScreen::init()
     else
         race_manager->setNumKarts(local_players);
 	
-
+	/*
     // Reverse track or random item in arena
     // -------------
     const bool reverse_available = m_track->reverseAvailable() &&
                race_manager->getMinorMode() != RaceManager::MINOR_MODE_EASTER_EGG;
     const bool random_item = m_track->hasNavMesh();
-
+	
     m_option->setVisible(reverse_available || random_item);
     getWidget<LabelWidget>("option-text")->setVisible(reverse_available || random_item);
     if (reverse_available)
@@ -229,7 +229,7 @@ void TrackInfoScreen::init()
     }
     else
         m_option->setState(false);
-
+		*/
 	// BCI Mode
 	m_bci->setVisible(1);
 	getWidget<LabelWidget>("bci-text")->setVisible(1);
@@ -237,9 +237,9 @@ void TrackInfoScreen::init()
 
     // Record race or not
     // -------------
-    const bool record_available = race_manager->getMinorMode() == RaceManager::MINOR_MODE_TIME_TRIAL;
-    m_record_race->setVisible(record_available);
-    getWidget<LabelWidget>("record-race-text")->setVisible(record_available);
+	//const bool record_available = race_manager->getMinorMode() == RaceManager::MINOR_MODE_TIME_TRIAL;
+	const bool record_available = true;
+	getWidget<LabelWidget>("record-race-text")->setVisible(record_available);
     if (race_manager->isRecordingRace())
     {
         // isRecordingRace() is true when it's pre-set by ghost replay selection

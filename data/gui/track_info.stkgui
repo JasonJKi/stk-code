@@ -68,6 +68,7 @@
                              wrap_around="true" />
                 </div>
             </div>
+            <!--
             <spacer height="10"/>
             <div width="100%" height="fit" layout="horizontal-row" >
                 <label id="option-text" proportion="1" I18N="In the track info screen" text_align="right"/>
@@ -78,6 +79,7 @@
                     </div>
                 </div>
             </div>
+            -->
             <spacer height="10"/>
             <div width="100%" height="fit" layout="horizontal-row" >
                 <label id="bci-text" proportion="1" I18N="In the track info screen" text_align="right"/>
