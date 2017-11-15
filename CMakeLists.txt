@@ -37,12 +37,15 @@ if(MSVC AND (MSVC_VERSION LESS 1900))
     mark_as_advanced(WIIUSE_BUILD)
 else()
     set(WIIUSE_BUILD ON)
+	set(LSL_BUILD ON)
 endif()
 
 if(MINGW OR CYGWIN OR SERVER_ONLY)
     option(USE_WIIUSE "Support for wiimote input devices" OFF)
+	option(USE_LSL "Support for lab streaming layer" OFF)
 else()
     option(USE_WIIUSE "Support for wiimote input devices" ON)
+	option(USE_LSL "Support for lab streaming layer" ON)
 endif()
 
 if(UNIX AND NOT APPLE)
@@ -169,6 +172,15 @@ if(USE_WIIUSE)
         add_subdirectory("${PROJECT_SOURCE_DIR}/lib/wiiuse")
     endif()
     include_directories("${PROJECT_SOURCE_DIR}/lib/wiiuse")
+endif()
+
+# Build the Lab Streaming Layer 
+# Note: Lab Streaming Layer will be used to direct 
+if(USE_LSL)
+	if(LSL_BUILD)
+		add_subdirectory("${PROJECT_SOURCE_DIR}/lib/liblsl")
+	endif()
+	include_directories("${PROJECT_SOURCE_DIR}/lib/liblsl")
 endif()
 
 # Set include paths

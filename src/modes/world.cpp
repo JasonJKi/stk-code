@@ -242,7 +242,7 @@ void World::init()
     {
         // In case that the server is running with gui or watching replay,
         // create a camera and attach it to the first kart.
-        Camera::createCamera(World::getWorld()->getKart(0));
+        Camera::createCamera(World::getWorld()->getKart(num_karts-1));
 
     }
 }   // init

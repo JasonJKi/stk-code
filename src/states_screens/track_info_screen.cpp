@@ -427,10 +427,10 @@ void TrackInfoScreen::eventCallback(Widget* widget, const std::string& name,
     {
         const bool record = m_record_race->getState();
         m_record_this_race = record;
-        m_ai_kart_spinner->setValue(0);
         // Disable AI when recording ghost race
-        if (record)
+        if (!record)
         {
+			m_ai_kart_spinner->setValue(0);
             m_ai_kart_spinner->setActive(false);
             race_manager->setNumKarts(race_manager->getNumLocalPlayers());
             UserConfigParams::m_num_karts = race_manager->getNumLocalPlayers();
