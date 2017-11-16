@@ -42,6 +42,7 @@
 #include "tracks/track_manager.hpp"
 #include "utils/string_utils.hpp"
 #include "utils/translation.hpp"
+#include "states_screens/ghost_replay_selection.hpp"
 
 #include <IGUIEnvironment.h>
 #include <IGUIImage.h>
@@ -391,55 +392,59 @@ void TrackInfoScreen::onEnterPressedInternal()
 
 // ----------------------------------------------------------------------------
 void TrackInfoScreen::eventCallback(Widget* widget, const std::string& name,
-                                   const int playerID)
+	const int playerID)
 {
-    if (name == "buttons")
-    {
-        const std::string &button = getWidget<GUIEngine::RibbonWidget>("buttons")
-                                  ->getSelectionIDString(PLAYER_ID_GAME_MASTER);
-        if(button=="start")
-            onEnterPressedInternal();
-        else if(button=="back")
-            StateManager::get()->escapePressed();
-    }
-    else if (name == "back")
-    {
-        StateManager::get()->escapePressed();
-    }
-    else if (name == "option")
-    {
-        if (m_track->hasNavMesh())
-        {
-            UserConfigParams::m_random_arena_item = m_option->getState();
-        }
-        else
-        {
-            race_manager->setReverseTrack(m_option->getState());
-            // Makes sure the highscores get swapped when clicking the 'reverse'
-            // checkbox.
-            updateHighScores();
-        }
-    }
+	if (name == "buttons")
+	{
+		const std::string &button = getWidget<GUIEngine::RibbonWidget>("buttons")
+			->getSelectionIDString(PLAYER_ID_GAME_MASTER);
+		if (button == "start")
+			onEnterPressedInternal();
+		else if (button == "back")
+			StateManager::get()->escapePressed();
+	}
+	else if (name == "back")
+	{
+		StateManager::get()->escapePressed();
+	}
+	else if (name == "option")
+	{
+		if (m_track->hasNavMesh())
+		{
+			UserConfigParams::m_random_arena_item = m_option->getState();
+		}
+		else
+		{
+			race_manager->setReverseTrack(m_option->getState());
+			// Makes sure the highscores get swapped when clicking the 'reverse'
+			// checkbox.
+			updateHighScores();
+		}
+	}
 	else if (name == "bci") {
 		race_manager->setBCI(m_bci->getState());
 	}
-    else if (name == "record")
-    {
-        const bool record = m_record_race->getState();
-        m_record_this_race = record;
-        // Disable AI when recording ghost race
-        if (!record)
-        {
+	else if (name == "record")
+	{
+		const bool record = m_record_race->getState();
+		m_record_this_race = record;
+		// Disable AI when recording ghost race
+		if (!record)
+		{
 			m_ai_kart_spinner->setValue(0);
-            m_ai_kart_spinner->setActive(false);
-            race_manager->setNumKarts(race_manager->getNumLocalPlayers());
-            UserConfigParams::m_num_karts = race_manager->getNumLocalPlayers();
-        }
-        else
-        {
-            m_ai_kart_spinner->setActive(true);
-        }
-    }
+			m_ai_kart_spinner->setActive(false);
+			race_manager->setNumKarts(race_manager->getNumLocalPlayers());
+			UserConfigParams::m_num_karts = race_manager->getNumLocalPlayers();
+		}
+		else
+		{
+			m_ai_kart_spinner->setActive(true);
+		}
+	}
+	else if (name == "select replay") {
+		UserConfigParams::m_game_mode = 6;
+		GhostReplaySelection::getInstance()->push();
+	}
     else if (name == "lap-spinner")
     {
         assert(race_manager->modeHasLaps());

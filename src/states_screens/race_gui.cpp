@@ -223,6 +223,7 @@ void RaceGUI::renderGlobal(float dt)
     if(!world->isRacePhase()) return;
     if (!m_enabled) return;
 
+	/*
     if (!m_is_tutorial)
     {
         //stop displaying timer as soon as race is over
@@ -235,12 +236,12 @@ void RaceGUI::renderGlobal(float dt)
             drawGlobalMusicDescription();
         }
     }
-
+	
     drawGlobalMiniMap();
 
     if (!m_is_tutorial)               drawGlobalPlayerIcons(m_map_height);
     if(Track::getCurrentTrack()->isSoccer()) drawScores();
-
+	*/
 	frameCount++;
 	if (frameCount == 1 || (frameCount % 20) < 4) {
 		flash = video::SColor(255, 255, 255, 255);
@@ -272,13 +273,14 @@ void RaceGUI::renderPlayerView(const Camera *camera, float dt)
     const AbstractKart *kart = camera->getKart();
     if(!kart) return;
     
+	/*
     drawPlungerInFace(camera, dt);
 
     scaling *= viewport.getWidth()/800.0f; // scale race GUI along screen size
     drawAllMessages(kart, viewport, scaling);
 
     if(!World::getWorld()->isRacePhase()) return;
-
+	
     if (m_multitouch_gui == NULL)
     {
         drawPowerupIcons(kart, viewport, scaling);
@@ -287,6 +289,7 @@ void RaceGUI::renderPlayerView(const Camera *camera, float dt)
 
     if (!m_is_tutorial)
         drawLap(kart, viewport, scaling);
+	*/
 }   // renderPlayerView
 
 //-----------------------------------------------------------------------------
