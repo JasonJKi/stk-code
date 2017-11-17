@@ -82,28 +82,44 @@
             -->
             <spacer height="10"/>
             <div width="100%" height="fit" layout="horizontal-row" >
-                <label id="bci-text" proportion="1" I18N="In the track info screen" text_align="right"/>
+                <label id="ai-controller-text" proportion="1" I18N="In the track info screen" text_align="right"/>
                 <spacer width="40"/>
                 <div proportion="1" height="fit" layout="horizontal-row">
                     <div width="50%" height="fit" text-align="center" layout="vertical-row" >
-                        <checkbox id="bci" align="center"/>
+                        <checkbox id="ai controller" align="center"/>
                     </div>
                 </div>
             </div>
+            <spacer height="10"/>
             <div width="100%" height="fit" layout="horizontal-row" >
-                <label id="record-race-text" proportion="1" I18N="In the track info screen" text="Record the race for ghost replay" text_align="right"/>
-                <spacer width="40"/>
-                <div proportion="1" height="fit" layout="horizontal-row">
-                    <div width="50%" height="fit" text-align="center" layout="vertical-row" >
-                        <checkbox id="record" align="center"/>
-                    </div>
+                  <label id="bci-text" proportion="1" I18N="In the track info screen" text_align="right"/>
+                  <spacer width="40"/>
+
+                  <div proportion="1" height="fit" layout="horizontal-row">
+                      <label id="trial-1" proportion="1" I18N="In the track info screen" text_align="right"/>
+                      <div width="50%" height="fit" text-align="center" layout="vertical-row" >
+                          <checkbox id="mock bci 1" align="center"/>
+                      </div>
+                      <label id="trial-2" proportion="1" I18N="In the track info screen" text_align="right"/>
+                      <div width="50%" height="fit" text-align="center" layout="vertical-row" >
+                          <checkbox id="mock bci 2" align="center"/>
+                      </div>
+                  </div>
                 </div>
-            </div>
-            <spacer width="1" height="1%"/>
-            <buttonbar id="buttons" height="20%" width="100%" align="right">
-                <icon-button id="start" width="64" height="64" icon="gui/green_check.png"
-                        I18N="In the track info screen" text="Start Race"/>
-            </buttonbar>
+             <div width="100%" height="fit" layout="horizontal-row" >
+                  <label id="record-race-text" proportion="1" I18N="In the track info screen" text="Record the race for replay" text_align="right"/>
+                  <spacer width="40"/>
+                  <div proportion="1" height="fit" layout="horizontal-row">
+                      <div width="50%" height="fit" text-align="center" layout="vertical-row" >
+                          <checkbox id="record" align="center"/>
+                      </div>
+                  </div>
+              </div>
+              <spacer width="1" height="1%"/>
+              <buttonbar id="buttons" height="20%" width="100%" align="right">
+                  <icon-button id="start" width="64" height="64" icon="gui/green_check.png"
+                          I18N="In the track info screen" text="Start Race"/>
+              </buttonbar>
         </box>
     </div>
 </stkgui>

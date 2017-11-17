@@ -315,8 +315,8 @@ private:
     /** Whether a track should be reversed */
     std::vector<bool>                m_reverse_track;
 
-	/** Create bci controller for the user */
-	bool				             m_bci;
+	/** Create AI controller for the user */
+	bool				             m_AI_controller;
 
     /** The list of default AI karts to use. This is from the command line. */
     std::vector<std::string>         m_default_ai_list;
@@ -463,10 +463,10 @@ public:
         m_reverse_track.push_back(r_t);
     }   // setReverseTrack
 	// ------------------------------------------------------------------------
-	void setBCI(bool bci_t)
+	void setAIController(bool ai_t)
 	{
-		m_bci = bci_t;
-	}   // setBCI
+		m_AI_controller = ai_t;
+	}   // setAIController
     // ------------------------------------------------------------------------
     void setMajorMode(MajorRaceModeType mode) { m_major_mode = mode; }
     // ------------------------------------------------------------------------
@@ -757,10 +757,10 @@ public:
         return m_has_ghost_karts;
     }   // hasGhostKarts
     // ------------------------------------------------------------------------
-	bool hasBCI() const
+	bool hasAIController() const
 	{
-		return m_bci;
-	}   // hasBCI
+		return m_AI_controller;
+	}   // hasAIController
 	// ------------------------------------------------------------------------
 	bool isWatchingReplay() const
     {

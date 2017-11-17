@@ -69,13 +69,17 @@ void TrackInfoScreen::loadedFromFile()
     m_lap_spinner     = getWidget<SpinnerWidget>("lap-spinner");
     m_ai_kart_spinner = getWidget<SpinnerWidget>("ai-spinner");
 
-	m_option	= getWidget<CheckBoxWidget>("option");
-	m_bci = getWidget<CheckBoxWidget>("bci");
+	m_option			= getWidget<CheckBoxWidget>("option");
+	m_ai_controller		= getWidget<CheckBoxWidget>("ai controller");
+    m_record_race		= getWidget<CheckBoxWidget>("record");
+	m_mock_bci_trial_1	= getWidget<CheckBoxWidget>("mock bci 1");
+	m_mock_bci_trial_2	= getWidget<CheckBoxWidget>("mock bci 2");
 
-    m_record_race     = getWidget<CheckBoxWidget>("record");
     //m_option->setState(false);
-	m_bci->setState(false);
+	m_ai_controller->setState(false);
     m_record_race->setState(false);
+	m_mock_bci_trial_1->setState(false);
+	m_mock_bci_trial_2->setState(false);
 
     m_highscore_label = getWidget<LabelWidget>("highscores");
 
@@ -230,12 +234,21 @@ void TrackInfoScreen::init()
     }
     else
         m_option->setState(false);
-		*/
-	// BCI Mode
-	m_bci->setVisible(1);
+	*/
+
+	// mock bci
+	m_mock_bci_trial_1->setVisible(1);
+	m_mock_bci_trial_2->setVisible(1);
 	getWidget<LabelWidget>("bci-text")->setVisible(1);
 	getWidget<LabelWidget>("bci-text")->setText(_("BCI"), false);
+	getWidget<LabelWidget>("trial-1")->setVisible(1);
+	getWidget<LabelWidget>("trial-1")->setText(_("1"), false);
+	getWidget<LabelWidget>("trial-2")->setVisible(1);
+	getWidget<LabelWidget>("trial-2")->setText(_("2"), false);
 
+	m_ai_controller->setVisible(1);
+	getWidget<LabelWidget>("ai-controller-text")->setVisible(1);
+	getWidget<LabelWidget>("ai-controller-text")->setText(_("AI Controller"), false);
     // Record race or not
     // -------------
 	//const bool record_available = race_manager->getMinorMode() == RaceManager::MINOR_MODE_TIME_TRIAL;
@@ -421,8 +434,8 @@ void TrackInfoScreen::eventCallback(Widget* widget, const std::string& name,
 			updateHighScores();
 		}
 	}
-	else if (name == "bci") {
-		race_manager->setBCI(m_bci->getState());
+	else if (name == "ai_controller") {
+		race_manager->setAIController(m_ai_controller->getState());
 	}
 	else if (name == "record")
 	{

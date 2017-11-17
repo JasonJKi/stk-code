@@ -357,7 +357,7 @@ AbstractKart *World::createKart(const std::string &kart_ident, int index,
     switch(kart_type)
     {
     case RaceManager::KT_PLAYER:
-		if (race_manager->hasBCI()) {
+		if (race_manager->hasAIController()) {
 			controller = new LocalPlayerControllerAI(new_kart,
 				StateManager::get()->getActivePlayer(local_player_id));
 		} else {
