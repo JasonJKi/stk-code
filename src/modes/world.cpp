@@ -153,7 +153,7 @@ void World::init()
     m_eliminated_players  = 0;
     m_num_players         = 0;
     unsigned int gk       = 0;
-    if (race_manager->hasGhostKarts()||race_manager->hasMockBCI())
+    if (race_manager->hasGhostKarts())
         gk = ReplayPlay::get()->getNumGhostKart();
 
     // Create the race gui before anything else is attached to the scene node

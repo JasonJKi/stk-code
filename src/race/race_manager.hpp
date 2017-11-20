@@ -775,7 +775,7 @@ public:
 	int hasMockBCI() const
 	{
 		return m_mock_bci;
-	}   // hasAIController
+	}   // hasMockBCI
 	// ------------------------------------------------------------------------
 	bool isWatchingReplay() const
     {

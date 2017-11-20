@@ -457,7 +457,7 @@ void TrackInfoScreen::eventCallback(Widget* widget, const std::string& name,
 			updateHighScores();
 		}
 	}
-	else if (name == "ai_controller") {
+	else if (name == "ai controller") {
 		race_manager->setAIController(m_ai_controller->getState());
 	}
 	else if (name == "record")
