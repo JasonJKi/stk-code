@@ -126,6 +126,14 @@ public:
         SUPERPOWER_NOLOK_BOSS = 1
     };
 
+	// ------------------------------------------------------------------------
+	/** Choose the Mock bci Run */
+	enum MockBCIRun
+	{
+		MOCK_BCI_RUN_1	=1,
+		MOCK_BCI_RUN_2	=2
+	};
+
     // ------------------------------------------------------------------------
     /** Returns a string identifier for each minor race mode.
      *  \param mode Minor race mode.
@@ -314,6 +322,9 @@ private:
 
     /** Whether a track should be reversed */
     std::vector<bool>                m_reverse_track;
+	
+	/** load ghost replay for mock BCI */
+	bool							 m_mock_bci;
 
 	/** Create AI controller for the user */
 	bool				             m_AI_controller;
@@ -760,6 +771,10 @@ public:
 	bool hasAIController() const
 	{
 		return m_AI_controller;
+	}   // hasAIController
+	int hasMockBCI() const
+	{
+		return m_mock_bci;
 	}   // hasAIController
 	// ------------------------------------------------------------------------
 	bool isWatchingReplay() const

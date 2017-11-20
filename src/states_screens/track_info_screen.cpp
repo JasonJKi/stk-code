@@ -66,21 +66,23 @@ TrackInfoScreen::TrackInfoScreen()
 /* Saves some often used pointers. */
 void TrackInfoScreen::loadedFromFile()
 {
-    m_lap_spinner     = getWidget<SpinnerWidget>("lap-spinner");
-    m_ai_kart_spinner = getWidget<SpinnerWidget>("ai-spinner");
-
+    m_lap_spinner      = getWidget<SpinnerWidget>("lap-spinner");
+    m_ai_kart_spinner  = getWidget<SpinnerWidget>("ai-spinner");
+	m_mock_bci_spinner = getWidget<SpinnerWidget>("mock-bci-spinner");
+	
 	m_option			= getWidget<CheckBoxWidget>("option");
 	m_ai_controller		= getWidget<CheckBoxWidget>("ai controller");
     m_record_race		= getWidget<CheckBoxWidget>("record");
-	m_mock_bci_trial_1	= getWidget<CheckBoxWidget>("mock bci 1");
-	m_mock_bci_trial_2	= getWidget<CheckBoxWidget>("mock bci 2");
+	m_mock_bci_run_1	= getWidget<CheckBoxWidget>("mock bci 1");
+	m_mock_bci_run_2	= getWidget<CheckBoxWidget>("mock bci 2");
 
     //m_option->setState(false);
+	//m_mock_bci_run_1->setState(false);
+	//m_mock_bci_run_2->setState(false);
+
 	m_ai_controller->setState(false);
     m_record_race->setState(false);
-	m_mock_bci_trial_1->setState(false);
-	m_mock_bci_trial_2->setState(false);
-
+	
     m_highscore_label = getWidget<LabelWidget>("highscores");
 
     m_kart_icons[0] = getWidget<IconButtonWidget>("iconscore1");
@@ -208,6 +210,20 @@ void TrackInfoScreen::init()
     else
         race_manager->setNumKarts(local_players);
 	
+	// mock bci replay number m_mock_bci_spinner
+	// -----------------------
+	m_mock_bci_spinner->setVisible(1);
+	getWidget<LabelWidget>("bci-text")->setVisible(1);
+	int num_replay_file = ReplayPlay::get()->getNumReplayFile();
+	if (num_replay_file == 0)
+	{
+		ReplayPlay::get()->loadAllReplayFile();
+		num_replay_file = ReplayPlay::get()->getNumReplayFile();
+	}
+
+	m_mock_bci_spinner->setMin(0);
+	m_mock_bci_spinner->setMax(num_replay_file);
+	m_mock_bci_spinner->setValue(0);
 	/*
     // Reverse track or random item in arena
     // -------------
@@ -236,16 +252,18 @@ void TrackInfoScreen::init()
         m_option->setState(false);
 	*/
 
+
 	// mock bci
-	m_mock_bci_trial_1->setVisible(1);
-	m_mock_bci_trial_2->setVisible(1);
+	/*
+	m_mock_bci_run_1->setVisible(1);
+	m_mock_bci_run_2->setVisible(1);
 	getWidget<LabelWidget>("bci-text")->setVisible(1);
 	getWidget<LabelWidget>("bci-text")->setText(_("BCI"), false);
 	getWidget<LabelWidget>("trial-1")->setVisible(1);
 	getWidget<LabelWidget>("trial-1")->setText(_("1"), false);
 	getWidget<LabelWidget>("trial-2")->setVisible(1);
 	getWidget<LabelWidget>("trial-2")->setText(_("2"), false);
-
+	*/
 	m_ai_controller->setVisible(1);
 	getWidget<LabelWidget>("ai-controller-text")->setVisible(1);
 	getWidget<LabelWidget>("ai-controller-text")->setText(_("AI Controller"), false);
@@ -412,7 +430,12 @@ void TrackInfoScreen::eventCallback(Widget* widget, const std::string& name,
 		const std::string &button = getWidget<GUIEngine::RibbonWidget>("buttons")
 			->getSelectionIDString(PLAYER_ID_GAME_MASTER);
 		if (button == "start")
-			onEnterPressedInternal();
+			if (bci_replay_run) {
+				race_manager->startWatchingReplay(track_name, laps);
+			}
+			else {
+				onEnterPressedInternal();
+			}
 		else if (button == "back")
 			StateManager::get()->escapePressed();
 	}
@@ -473,6 +496,28 @@ void TrackInfoScreen::eventCallback(Widget* widget, const std::string& name,
         UserConfigParams::m_num_karts = race_manager->getNumLocalPlayers() + num_ai;
         updateHighScores();
     }
+	else if (name == "mock-bci-spinner") 
+	{
+		const int num_replay = m_mock_bci_spinner->getValue();
+		if (num_replay == 0)
+		{
+			race_manager->setWatchingReplay(false);
+			race_manager->setRaceGhostKarts(false);
+			bci_replay_run = false;
+		} else {
+			int replay_id = num_replay - 1;
+			m_rd = ReplayPlay::get()->getReplayData(replay_id);
+			track_name = m_rd.m_track_name;
+			laps = m_rd.m_laps;
+			bci_replay_run = true;
+
+			ReplayPlay::get()->setReplayFile(replay_id);
+			race_manager->setWatchingReplay(true);
+			race_manager->setRaceGhostKarts(true);
+			//race_manager->setNumKarts(race_manager->getNumLocalPlayers());
+			PlayerManager::getCurrentPlayer()->setCurrentChallenge("");
+		}
+	}
 }   // eventCallback
 
 // ----------------------------------------------------------------------------

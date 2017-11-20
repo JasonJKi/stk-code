@@ -64,20 +64,6 @@ void ReplayPlay::loadAllReplayFile()
 {
     m_replay_file_list.clear();
 
-    // Load stock replay first
-    std::set<std::string> pre_record;
-    file_manager->listFiles(pre_record, file_manager
-        ->getAssetDirectory(FileManager::REPLAY), /*is_full_path*/ true);
-    for (std::set<std::string>::iterator i  = pre_record.begin();
-                                         i != pre_record.end(); ++i)
-    {
-        if (!addReplayFile(*i, /*custom_replay*/ true))
-        {
-            // Skip invalid replay file
-            continue;
-        }
-    }
-
     // Now user recorded replay
     std::set<std::string> files;
     file_manager->listFiles(files, file_manager->getReplayDir(),

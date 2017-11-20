@@ -21,6 +21,7 @@
 #define HEADER_TRACK_INFO_SCREEN_HPP
 
 #include "guiengine/screen.hpp"
+#include "replay/replay_play.hpp"
 
 namespace GUIEngine
 {
@@ -45,7 +46,9 @@ class TrackInfoScreen : public GUIEngine::Screen,
     Track *m_track;
 
     bool m_record_this_race;
-
+	bool bci_replay_run = false;
+	std::string track_name;
+	int laps;
     // When there is no need to tab through / click on images/labels, we can add directly
     // irrlicht labels (more complicated uses require the use of our widget set)
     /** Spinner for number of laps. */
@@ -61,8 +64,12 @@ class TrackInfoScreen : public GUIEngine::Screen,
 	GUIEngine::CheckBoxWidget* m_ai_controller;
 
 	/** Check box to for mock bci. */
-	GUIEngine::CheckBoxWidget* m_mock_bci_trial_1;
-	GUIEngine::CheckBoxWidget* m_mock_bci_trial_2;
+	GUIEngine::SpinnerWidget*  m_mock_bci_spinner;
+
+	GUIEngine::CheckBoxWidget* m_mock_bci_run_1;
+	GUIEngine::CheckBoxWidget* m_mock_bci_run_2;
+
+	ReplayPlay::ReplayData m_rd;
 
     /** Check box for record race. */
     GUIEngine::CheckBoxWidget* m_record_race;
