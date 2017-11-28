@@ -70,12 +70,18 @@
             </div>
             <spacer height="10"/>
             <div width="100%" height="fit" layout="horizontal-row" >
-                <label id="bci-text" proportion="1" I18N="In the track info screen" text="BCI run" text_align="right"/>
-                <spacer width="40"/>
-                <div proportion="1" height="fit" layout="horizontal-row">
+              <label id="bci-text" proportion="2" I18N="In the track info screen" text="BCI Controller" text_align="right"/>
+              <spacer width="50"/>
+              <div proportion="1" width="50%" height="fit" layout="horizontal-row">
+                <div width="25%" height="fit" text-align="right" layout="vertical-row" >
+                  <checkbox id="mock-bci-button" align="right"/>
+                </div>
+              </div>
+              <div proportion="1" width="50%" height="fit" layout="horizontal-row">
                     <spinner id="mock-bci-spinner" width="50%" min_value="1" max_value="20" align="center"
                              wrap_around="true" />
-                </div>
+               </div>
+   
             </div>
             <spacer height="10"/>
             <div width="100%" height="fit" layout="horizontal-row" >

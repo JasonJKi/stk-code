@@ -68,7 +68,7 @@ class TrackInfoScreen : public GUIEngine::Screen,
 
 	GUIEngine::CheckBoxWidget* m_mock_bci_run_1;
 	GUIEngine::CheckBoxWidget* m_mock_bci_run_2;
-
+	GUIEngine::CheckBoxWidget* m_mock_bci;
 	ReplayPlay::ReplayData m_rd;
 
     /** Check box for record race. */

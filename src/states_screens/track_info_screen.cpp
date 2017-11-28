@@ -69,17 +69,18 @@ void TrackInfoScreen::loadedFromFile()
     m_lap_spinner      = getWidget<SpinnerWidget>("lap-spinner");
     m_ai_kart_spinner  = getWidget<SpinnerWidget>("ai-spinner");
 	m_mock_bci_spinner = getWidget<SpinnerWidget>("mock-bci-spinner");
-	
+
 	m_option			= getWidget<CheckBoxWidget>("option");
 	m_ai_controller		= getWidget<CheckBoxWidget>("ai controller");
     m_record_race		= getWidget<CheckBoxWidget>("record");
+	m_mock_bci			= getWidget<CheckBoxWidget>("mock-bci-button");
 	m_mock_bci_run_1	= getWidget<CheckBoxWidget>("mock bci 1");
 	m_mock_bci_run_2	= getWidget<CheckBoxWidget>("mock bci 2");
 
     //m_option->setState(false);
 	//m_mock_bci_run_1->setState(false);
 	//m_mock_bci_run_2->setState(false);
-
+	m_mock_bci->setState(false);
 	m_ai_controller->setState(false);
     m_record_race->setState(false);
 	
@@ -224,6 +225,8 @@ void TrackInfoScreen::init()
 	m_mock_bci_spinner->setMin(0);
 	m_mock_bci_spinner->setMax(num_replay_file);
 	m_mock_bci_spinner->setValue(0);
+
+	m_mock_bci->setVisible(1);
 	/*
     // Reverse track or random item in arena
     // -------------
@@ -506,7 +509,7 @@ void TrackInfoScreen::eventCallback(Widget* widget, const std::string& name,
 			bci_replay_run = false;
 		} else {
 			int replay_id = num_replay - 1;
-			m_rd = ReplayPlay::get()->getReplayData(replay_id);
+			//m_rd = ReplayPlay::get()->getReplayData(replay_id);
 			track_name = m_rd.m_track_name;
 			laps = m_rd.m_laps;
 			bci_replay_run = true;
