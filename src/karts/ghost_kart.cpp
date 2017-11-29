@@ -77,6 +77,8 @@ void GhostKart::update(float dt)
     if (gc == NULL) return;
 
     gc->update(dt);
+
+	updateSpeed();
     if (gc->isReplayEnd())
     {
         m_node->setVisible(false);
@@ -150,3 +152,10 @@ float GhostKart::getSpeed() const
     assert(gc->getCurrentReplayIndex() < m_all_physic_info.size());
     return m_all_physic_info[gc->getCurrentReplayIndex()].m_speed;
 }   // getSpeed
+
+void GhostKart::updateSpeed() 
+{
+	float f = 0.3f;
+	m_speed = getSpeed();
+	m_smoothed_speed = f*m_speed + (1.0f - f)*m_smoothed_speed;
+}

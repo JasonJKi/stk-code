@@ -99,8 +99,8 @@ void CameraNormal::smoothMoveCamera(float dt)
     float skid_angle = asin(skid_factor);
     float ratio = current_speed / max_speed_without_zipper;
 
-    //ratio = ratio > -0.12f ? ratio : -0.12f;
-	ratio = 0.0f;
+    ratio = ratio > -0.12f ? ratio : -0.12f;
+	//ratio = 0.0f;
     // distance of camera from kart in x and z plane
     float camera_distance = -1.25f - 2.5f * ratio;
     if (camera_distance > -2.0f) camera_distance = -2.0f; // don't get too close to the kart
