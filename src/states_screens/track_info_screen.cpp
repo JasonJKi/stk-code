@@ -225,7 +225,6 @@ void TrackInfoScreen::init()
 	m_mock_bci_spinner->setMin(0);
 	m_mock_bci_spinner->setMax(num_replay_file);
 	m_mock_bci_spinner->setValue(0);
-
 	m_mock_bci->setVisible(1);
 	/*
     // Reverse track or random item in arena
@@ -509,7 +508,7 @@ void TrackInfoScreen::eventCallback(Widget* widget, const std::string& name,
 			bci_replay_run = false;
 		} else {
 			int replay_id = num_replay - 1;
-			//m_rd = ReplayPlay::get()->getReplayData(replay_id);
+			m_rd = ReplayPlay::get()->getReplayData(replay_id);
 			track_name = m_rd.m_track_name;
 			laps = m_rd.m_laps;
 			bci_replay_run = true;
