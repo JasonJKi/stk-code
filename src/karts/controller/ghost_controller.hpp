@@ -81,6 +81,10 @@ public:
     {
         return m_display_name.empty() ? Controller::getName() : m_display_name;
     }
+
+	/** The index of the camera attached to the kart for this controller. The
+	*  camera object is managed in the Camera class, so no need to free it. */
+	int  m_camera_index;
 };   // GhostController
 
 #endif
