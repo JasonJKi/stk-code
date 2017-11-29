@@ -225,7 +225,6 @@ void TrackInfoScreen::init()
 	m_mock_bci_spinner->setMin(0);
 	m_mock_bci_spinner->setMax(num_replay_file);
 	m_mock_bci_spinner->setValue(0);
-
 	m_mock_bci->setVisible(1);
 	/*
     // Reverse track or random item in arena
