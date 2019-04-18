@@ -293,7 +293,7 @@ void PlayerController::update(float dt)
             }   // if penalty_time = 0
 			
 			m_controls->setBrake(false);
-            m_controls->setAccel(32767.0f);
+            m_controls->setAccel(1.0f);
         }   // if key pressed
 
         return;

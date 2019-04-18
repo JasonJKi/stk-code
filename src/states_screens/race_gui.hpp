@@ -116,7 +116,7 @@ private:
 
 	/** Height of the digit font. */
 	int              frameCount;
-
+	float			 time;
 
 public:
 

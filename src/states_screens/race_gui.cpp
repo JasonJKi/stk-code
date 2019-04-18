@@ -158,6 +158,7 @@ void RaceGUI::init()
     // global kart id to find the data for a specific kart.
     int n = race_manager->getNumberOfKarts();
 	frameCount = 0;
+	time = 0.00f;
     m_animation_states.resize(n);
     m_rank_animation_duration.resize(n);
     m_last_ranks.resize(n);
@@ -184,18 +185,13 @@ void RaceGUI::reset()
  */
 void RaceGUI::renderGlobal(float dt)
 {
+
 #ifndef SERVER_ONLY
     RaceGUIBase::renderGlobal(dt);
     cleanupMessages(dt);
 
-	static video::SColor flash;
-	flash = video::SColor(255, 0, 0, 0);
 
-	GL32_draw2DRectangle(flash,
-		core::rect<s32>(irr_driver->getActualScreenSize().Width - irr_driver->getActualScreenSize().Width / 30,
-			0,
-			irr_driver->getActualScreenSize().Width,
-			irr_driver->getActualScreenSize().Height / 25));
+
 
     // Special case : when 3 players play, use 4th window to display such
     // stuff (but we must clear it)
@@ -223,6 +219,14 @@ void RaceGUI::renderGlobal(float dt)
     if(!world->isRacePhase()) return;
     if (!m_enabled) return;
 
+
+
+
+
+
+
+
+
 	/*
     if (!m_is_tutorial)
     {
@@ -242,17 +246,51 @@ void RaceGUI::renderGlobal(float dt)
     if (!m_is_tutorial)               drawGlobalPlayerIcons(m_map_height);
     if(Track::getCurrentTrack()->isSoccer()) drawScores();
 	*/
-	frameCount++;
-	if (frameCount == 1 || (frameCount % 20) < 4) {
-		flash = video::SColor(255, 255, 255, 255);
-		GL32_draw2DRectangle(flash,
-			core::rect<s32>(irr_driver->getActualScreenSize().Width - irr_driver->getActualScreenSize().Width / 30,
-				0,
-				irr_driver->getActualScreenSize().Width,
-				irr_driver->getActualScreenSize().Height / 25));
-	}
 	
+	frameCount++;
+	time = time + dt;
+	// int frameRate = round(1 / dt);
+	// int numFlashFrames = round(frameRate / 4);
 
+	int height = round(irr_driver->getActualScreenSize().Height);
+	int width = round(irr_driver->getActualScreenSize().Width);
+	core::rect<s32> flashPhotodiodeBoxPos = core::rect<s32>(width - width / 30, 0, width, height / 25);
+	
+	static video::SColor flashColor;
+
+	if (frameCount == 1 || (frameCount % 120) < 20) {
+		flashColor = video::SColor(255, 255, 255, 255);
+		GL32_draw2DRectangle(flashColor, flashPhotodiodeBoxPos);
+	}
+	else {
+		// Jason:: Render Flash Screen on top right of the screen
+		flashColor = video::SColor(255, 0, 0, 0);
+		GL32_draw2DRectangle(flashColor, flashPhotodiodeBoxPos);
+	}
+
+	
+	int flashIndex = round(frameCount % 20);
+
+	static video::SColor colorSquareColor;
+	colorSquareColor = video::SColor(0, 0, 0, 0);
+
+	switch (flashIndex) {
+		
+
+		case 1: {colorSquareColor = video::SColor(255, 0, 255, 255);}
+		case 2: {colorSquareColor = video::SColor(255, 255, 0, 255);}
+		case 3: {colorSquareColor = video::SColor(255, 255, 255, 0); }
+		default: {
+			int offset = round(width / 35);
+			core::rect<s32> coloredSquarePos = core::rect<s32>(
+				width/2 - offset, 
+				height/2 - offset, 
+				width/2 + offset, 
+				height/2 + offset );
+			GL32_draw2DRectangle(colorSquareColor, coloredSquarePos);
+		}
+	}
+		
 #endif
 }   // renderGlobal
 
