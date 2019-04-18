@@ -115,8 +115,14 @@ private:
     void drawScores();
 
 	/** Height of the digit font. */
-	int              frameCount;
+
+	int              frame_count;
 	float			 time;
+
+	int screen_width;
+	int screen_height;
+
+	
 
 public:
 
@@ -130,6 +136,14 @@ public:
     /** Returns the size of the texture on which to render the minimap to. */
     virtual const core::dimension2du getMiniMapSize() const
                   { return core::dimension2du(m_map_width, m_map_height); }
+
+	struct ColoredBox {
+		video::SColor color;
+		core::rect<s32> pos;
+	};
+
+	ColoredBox flash_box;
+	ColoredBox center_box;
 
 };   // RaceGUI
 

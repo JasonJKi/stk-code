@@ -57,6 +57,8 @@ using namespace irr;
 #include "utils/string_utils.hpp"
 #include "utils/translation.hpp"
 
+
+
 /** The constructor is called before anything is attached to the scene node.
  *  So rendering to a texture can be done here. But world is not yet fully
  *  created, so only the race manager can be accessed safely.
@@ -157,11 +159,31 @@ void RaceGUI::init()
     // Technically we only need getNumLocalPlayers, but using the
     // global kart id to find the data for a specific kart.
     int n = race_manager->getNumberOfKarts();
-	frameCount = 0;
-	time = 0.00f;
     m_animation_states.resize(n);
     m_rank_animation_duration.resize(n);
     m_last_ranks.resize(n);
+
+	frame_count = 0;
+	time = 0.00f;
+
+	screen_width = round(irr_driver->getActualScreenSize().Width);
+	screen_height = round(irr_driver->getActualScreenSize().Height);
+
+	// flash_box positioned on top right corner of the screen.
+	int pos_left = (int) screen_width - (screen_width / 30);
+	int pos_right = (int) screen_width;
+	int pos_top = 0;
+	int pos_bottom = screen_height / 25;
+	flash_box.pos = core::rect<s32>(pos_left, pos_top, pos_right, pos_bottom);
+
+	// center_box positioned at the center of screen.
+	int offset = (int) round(screen_width / 35);
+	pos_left = (int) (screen_width / 2) - offset;
+	pos_right = (int) (screen_width / 2) + offset;
+	pos_top = (int) (screen_height / 2) - offset;
+	pos_bottom = (int) (screen_height / 2) + offset;
+	center_box.pos = core::rect<s32>(pos_left, pos_top, pos_right, pos_bottom);
+
 }   // init
 
 //-----------------------------------------------------------------------------
@@ -219,14 +241,6 @@ void RaceGUI::renderGlobal(float dt)
     if(!world->isRacePhase()) return;
     if (!m_enabled) return;
 
-
-
-
-
-
-
-
-
 	/*
     if (!m_is_tutorial)
     {
@@ -247,50 +261,36 @@ void RaceGUI::renderGlobal(float dt)
     if(Track::getCurrentTrack()->isSoccer()) drawScores();
 	*/
 	
-	frameCount++;
+	frame_count++;
 	time = time + dt;
-	// int frameRate = round(1 / dt);
-	// int numFlashFrames = round(frameRate / 4);
+	int frameRate = 60;
+	int numFlashFrames = round(frameRate / 4);
 
-	int height = round(irr_driver->getActualScreenSize().Height);
-	int width = round(irr_driver->getActualScreenSize().Width);
-	core::rect<s32> flashPhotodiodeBoxPos = core::rect<s32>(width - width / 30, 0, width, height / 25);
+	// Jason: Show Flash Screen on top right of the screen to trigger photodiode;
+	if (frame_count == 1 || (frame_count % frameRate) < numFlashFrames) {
+		flash_box.color = video::SColor(255, 255, 255, 255);
+	} else {
+		flash_box.color = video::SColor(255, 0, 0, 0);
+	}
+	GL32_draw2DRectangle(flash_box.color, flash_box.pos);
+
+
+	// Jason: Show colored box at the cetner of the screen with changing box colors.
+	int boxChangeRate = frameRate * 3;
+	int	boxFrameDuration = round(boxChangeRate / 4);
+
+	if ((frame_count % boxChangeRate) < boxFrameDuration *1 ) {
+		center_box.color = video::SColor(0, 255, 255, 0);
+	} else if ((frame_count % boxChangeRate) < boxFrameDuration * 2) {
+		center_box.color = video::SColor(255, 0, 255, 255);
+	} else if ((frame_count % boxChangeRate) < boxFrameDuration * 3) {
+		center_box.color = video::SColor(255, 255, 255, 0);
+	} else if ((frame_count % boxChangeRate) < boxFrameDuration * 4) {
+		center_box.color = video::SColor(255, 255, 0, 255);
+	}
 	
-	static video::SColor flashColor;
+	GL32_draw2DRectangle(center_box.color, center_box.pos);
 
-	if (frameCount == 1 || (frameCount % 120) < 20) {
-		flashColor = video::SColor(255, 255, 255, 255);
-		GL32_draw2DRectangle(flashColor, flashPhotodiodeBoxPos);
-	}
-	else {
-		// Jason:: Render Flash Screen on top right of the screen
-		flashColor = video::SColor(255, 0, 0, 0);
-		GL32_draw2DRectangle(flashColor, flashPhotodiodeBoxPos);
-	}
-
-	
-	int flashIndex = round(frameCount % 20);
-
-	static video::SColor colorSquareColor;
-	colorSquareColor = video::SColor(0, 0, 0, 0);
-
-	switch (flashIndex) {
-		
-
-		case 1: {colorSquareColor = video::SColor(255, 0, 255, 255);}
-		case 2: {colorSquareColor = video::SColor(255, 255, 0, 255);}
-		case 3: {colorSquareColor = video::SColor(255, 255, 255, 0); }
-		default: {
-			int offset = round(width / 35);
-			core::rect<s32> coloredSquarePos = core::rect<s32>(
-				width/2 - offset, 
-				height/2 - offset, 
-				width/2 + offset, 
-				height/2 + offset );
-			GL32_draw2DRectangle(colorSquareColor, coloredSquarePos);
-		}
-	}
-		
 #endif
 }   // renderGlobal
 
