@@ -663,6 +663,9 @@ void RaceResultGUI::backToLobby()
 #ifndef SERVER_ONLY
         bool isSoccerWorld = race_manager->getMinorMode() == RaceManager::MINOR_MODE_SOCCER;
 
+		flash_box.color = video::SColor(255, 0, 0, 0);
+		GL32_draw2DRectangle(flash_box.color, flash_box.pos);
+
         m_timer += dt;
         assert(World::getWorld()->getPhase() == WorldStatus::RESULT_DISPLAY_PHASE);
         unsigned int num_karts = (unsigned int)m_all_row_infos.size();
@@ -1446,9 +1449,9 @@ void RaceResultGUI::backToLobby()
             }   // if mode has laps
         }   // if not soccer mode
 #endif
-    }
+    }	
 
-    // ----------------------------------------------------------------------------
+	// ----------------------------------------------------------------------------
     void RaceResultGUI::displayScreenShots()
     {
         const std::vector<std::string> tracks =
@@ -1483,3 +1486,4 @@ void RaceResultGUI::backToLobby()
         assert(m_font != NULL);
         return m_font->getDimension(L"A").Height; //Could be any capital letter
     }
+

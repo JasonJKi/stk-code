@@ -61,6 +61,7 @@ public:
 	virtual void finishedRace(float time) OVERRIDE;
 	virtual void reset() OVERRIDE;
 	virtual bool canGetAchievements() const OVERRIDE;
+	virtual void handleZipper(bool play_sound) OVERRIDE;
 	// ------------------------------------------------------------------------
 	/** Returns the name of the player profile. */
 

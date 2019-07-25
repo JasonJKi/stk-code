@@ -330,12 +330,15 @@ void SlipStream::updateSlipstreamPower()
     if(m_slipstream_mode==SS_USE)
     {
         setIntensity(2.0f, NULL);
-        const KartProperties *kp = m_kart->getKartProperties();
-        m_kart->increaseMaxSpeed(MaxSpeed::MS_INCREASE_SLIPSTREAM,
-                                kp->getSlipstreamMaxSpeedIncrease(),
-                                kp->getSlipstreamAddPower(),
-                                kp->getSlipstreamDuration(),
-                                kp->getSlipstreamFadeOutTime());
+		if (~m_kart->isGhostKart())
+		{ 
+			const KartProperties *kp = m_kart->getKartProperties();
+			m_kart->increaseMaxSpeed(MaxSpeed::MS_INCREASE_SLIPSTREAM,
+									kp->getSlipstreamMaxSpeedIncrease(),
+									kp->getSlipstreamAddPower(),
+									kp->getSlipstreamDuration(),
+									kp->getSlipstreamFadeOutTime());
+		}
     }
 }   // upateSlipstreamPower
 
@@ -368,10 +371,11 @@ void SlipStream::update(float dt)
     const KartProperties *kp = m_kart->getKartProperties();
 
     // Low level AIs and ghost karts should not do any slipstreaming.
-    if (m_kart->getController()->disableSlipstreamBonus()
+    /*
+	if (m_kart->getController()->disableSlipstreamBonus()
         || m_kart->isGhostKart())
         return;
-
+		*/
     MovingTexture::update(dt);
 
     if(m_slipstream_mode==SS_USE)
@@ -415,7 +419,7 @@ void SlipStream::update(float dt)
         // rescued or exploding, a ghost kart or an eliminated kart
         if(m_target_kart==m_kart               ||
             m_target_kart->getKartAnimation()  ||
-            m_target_kart->isGhostKart()       ||
+           // m_target_kart->isGhostKart()       ||
             m_target_kart->isEliminated()        ) continue;
 
         // Transform this kart location into target kart point of view
@@ -501,7 +505,7 @@ void SlipStream::update(float dt)
     // Accumulate slipstream credits now
     m_slipstream_time = m_slipstream_mode==SS_NONE ? dt
                                                    : m_slipstream_time+dt;
-    if(isSlipstreamReady())
+    if(isSlipstreamReady() || ~m_target_kart->isGhostKart())
         m_kart->setSlipstreamEffect(9.0f);
     setIntensity(m_slipstream_time, m_target_kart);
 

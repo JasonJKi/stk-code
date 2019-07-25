@@ -1309,7 +1309,9 @@ void Kart::update(float dt)
         m_invulnerable_time-=dt;
     }
 
-    m_slipstream->update(dt);
+    // Jason
+	// comment out the line below to disable slip.
+	slip_stream: m_slipstream->update(dt);
 
     // TODO: hiker said this probably will be moved to btKart or so when updating bullet engine.
     // Neutralize any yaw change if the kart leaves the ground, so the kart falls more or less
@@ -1519,9 +1521,13 @@ void Kart::update(float dt)
     // Check if any item was hit.
     // check it if we're not in a network world, or if we're on the server
     // (when network mode is on)
+
+	
+	/* Jason: Disabled track Items
     if (!RaceEventManager::getInstance()->isRunning() ||
         NetworkConfig::get()->isServer())
         ItemManager::get()->checkItemHit(this);
+		*/
 
     static video::SColor pink(255, 255, 133, 253);
     static video::SColor green(255, 61, 87, 23);
@@ -1937,9 +1943,12 @@ void Kart::handleZipper(const Material *material, bool play_sound)
     // Ignore a zipper that's activated while braking
     if(m_controls.getBrake() || m_speed<0) return;
 
-    m_max_speed->instantSpeedIncrease(MaxSpeed::MS_INCREASE_ZIPPER,
-                                     max_speed_increase, speed_gain,
-                                     engine_force, duration, fade_out_time);
+	if (m_body)
+	{
+		m_max_speed->instantSpeedIncrease(MaxSpeed::MS_INCREASE_ZIPPER,
+			max_speed_increase, speed_gain,
+			engine_force, duration, fade_out_time);
+	}
     // Play custom character sound (weee!)
     playCustomSFX(SFXManager::CUSTOM_ZIPPER);
     m_controller->handleZipper(play_sound);
@@ -2279,7 +2288,10 @@ void Kart::updatePhysics(float dt)
     // Check if accel is pressed for the first time. The actual timing
     // is done in getStartupBoost - it returns 0 if the start was actually
     // too slow to qualify for a boost.
-    if(!m_has_started && m_controls.getAccel())
+
+	/*
+	// Jason: Deactivate startup boost 
+	if(!m_has_started && m_controls.getAccel())
     {
         m_has_started = true;
         float f       = getStartupBoost();
@@ -2287,13 +2299,11 @@ void Kart::updatePhysics(float dt)
         {
             m_kart_gfx->setCreationRateAbsolute(KartGFX::KGFX_ZIPPER, 100*f);
             m_max_speed->instantSpeedIncrease(MaxSpeed::MS_INCREASE_ZIPPER,
-                                              0.9f*f, f,
-                                              /*engine_force*/200.0f,
-                                              /*duration*/5.0f,
-                                              /*fade_out_time*/5.0f);
-        }
+                                              0.9f*f, f, 200.0f, 5.0f, 5.0f);
+		}
     }
 
+	*/
     m_bounce_back_time-=dt;
 
     updateEnginePowerAndBrakes(dt);

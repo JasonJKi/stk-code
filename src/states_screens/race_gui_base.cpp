@@ -101,6 +101,32 @@ RaceGUIBase::RaceGUIBase()
 
     m_referee               = NULL;
     m_multitouch_gui        = NULL;
+
+
+	frame_count = 0;
+
+	screen_width = round(irr_driver->getActualScreenSize().Width);
+	screen_height = round(irr_driver->getActualScreenSize().Height);
+
+	// flash_box positioned on top right corner of the screen.
+	int pos_left = (int)screen_width - (screen_width / 30);
+	int pos_right = (int)screen_width;
+	int pos_top = 0;
+	int pos_bottom = screen_height / 25;
+	flash_box.pos = core::rect<s32>(pos_left, pos_top, pos_right, pos_bottom);
+
+	time = 0.00f;
+
+	useColorflashBox = false;
+
+	// center_box positioned at the center of screen.
+	int offset = (int)round(screen_width / 50);
+	pos_left = (int)(screen_width / 2) - offset;
+	pos_right = (int)(screen_width / 2) + offset;
+	pos_top = (int)(screen_height / 2) - offset;
+	pos_bottom = (int)(screen_height / 2) + offset;
+	center_box.pos = core::rect<s32>(pos_left, pos_top, pos_right, pos_bottom);
+
 }   // RaceGUIBase
 
 // ----------------------------------------------------------------------------

@@ -129,3 +129,24 @@ bool LocalPlayerControllerAI::canGetAchievements() const
 }   // canGetAchievements
 
 	
+void LocalPlayerControllerAI::handleZipper(bool play_sound)
+{
+	{
+		m_kart->showZipperFire();
+	}   // handleZipper
+
+	// Only play a zipper sound if it's not already playing, and
+	// if the material has changed (to avoid machine gun effect
+	// on conveyor belt zippers).
+	if (play_sound || (m_wee_sound->getStatus() != SFXBase::SFX_PLAYING &&
+		m_kart->getMaterial() != m_kart->getLastMaterial()))
+	{
+		m_wee_sound->play();
+	}
+
+#ifndef SERVER_ONLY
+	// Apply the motion blur according to the speed of the kart
+	irr_driver->giveBoost(m_camera_index);
+#endif
+
+}   // handleZipper

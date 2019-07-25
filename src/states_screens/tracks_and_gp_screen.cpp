@@ -189,7 +189,8 @@ void TracksAndGPScreen::init()
         }
         assert(screenshots.size() > 0);
 
-        if (PlayerManager::getCurrentPlayer()->isLocked(gp->getId()) &&
+		/**
+		if (PlayerManager::getCurrentPlayer()->isLocked(gp->getId()) &&
             race_manager->getNumLocalPlayers() == 1)
         {
             gps_widget->addAnimatedItem(_("Locked!"), "locked",
@@ -204,7 +205,12 @@ void TracksAndGPScreen::init()
                                         TROPHY_BADGE,
                                         IconButtonWidget::ICON_PATH_TYPE_ABSOLUTE);
         }
-    }
+		**/
+		gps_widget->addAnimatedItem(translations->fribidize(gp->getName()),
+                                        gp->getId(), screenshots, 1.5f,
+                                        TROPHY_BADGE,
+                                        IconButtonWidget::ICON_PATH_TYPE_ABSOLUTE);
+	}
 
     // Random GP
     std::vector<std::string> screenshots;
@@ -271,6 +277,7 @@ void TracksAndGPScreen::buildTrackList()
     for (unsigned int i = 0; i < tracks.size(); i++)
     {
         Track *curr = tracks.get(i);
+		/**
         if (PlayerManager::getCurrentPlayer()->isLocked(curr->getIdent()) &&
             race_manager->getNumLocalPlayers() == 1)
         {
@@ -287,6 +294,12 @@ void TracksAndGPScreen::buildTrackList()
                 IconButtonWidget::ICON_PATH_TYPE_ABSOLUTE);
             m_random_track_list.push_back(curr->getIdent());
         }
+		**/
+		tracks_widget->addItem(translations->fribidize(curr->getName()),
+			curr->getIdent(),
+			curr->getScreenshotFile(), 0,
+			IconButtonWidget::ICON_PATH_TYPE_ABSOLUTE);
+		m_random_track_list.push_back(curr->getIdent());
     }
 
     tracks_widget->addItem(_("Random Track"), "random_track",

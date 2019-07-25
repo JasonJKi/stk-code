@@ -20,6 +20,7 @@
 #include "karts/controller/ghost_controller.hpp"
 #include "karts/controller/kart_control.hpp"
 #include "modes/world.hpp"
+#include "karts/abstract_kart.hpp"
 
 GhostController::GhostController(AbstractKart *kart, core::stringw display_name)
                 : Controller(kart)

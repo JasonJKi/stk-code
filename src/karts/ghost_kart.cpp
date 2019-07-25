@@ -22,6 +22,7 @@
 #include "karts/kart_model.hpp"
 #include "graphics/render_info.hpp"
 #include "modes/world.hpp"
+#include "graphics/slip_stream.hpp"
 
 #include "LinearMath/btQuaternion.h"
 
@@ -31,6 +32,7 @@ GhostKart::GhostKart(const std::string& ident, unsigned int world_kart_id,
                  position, btTransform(btQuaternion(0, 0, 0, 1)),
                  PLAYER_DIFFICULTY_NORMAL, KRT_DEFAULT)
 {
+	m_slipstream = new SlipStream(this);
 }   // GhostKart
 
 // ----------------------------------------------------------------------------
@@ -120,12 +122,17 @@ void GhostKart::update(float dt)
         m_all_physic_info[idx].m_steer, m_all_physic_info[idx].m_speed,
         /*lean*/0.0f, idx);
 
+	// Jason: disabled gfs for ghost karts.
     getKartGFX()->setGFXFromReplay(m_all_replay_events[idx].m_nitro_usage,
         m_all_replay_events[idx].m_zipper_usage,
         m_all_replay_events[idx].m_skidding_state,
         m_all_replay_events[idx].m_red_skidding);
-    getKartGFX()->update(dt);
 
+	getKartGFX()->update(dt);
+	
+
+	// comment out the line below to disable slip.
+	slip_stream: m_slipstream->update(dt);
     Vec3 front(0, 0, getKartLength()*0.5f);
     m_xyz_front = getTrans()(front);
 
@@ -159,3 +166,4 @@ void GhostKart::updateSpeed()
 	m_speed = getSpeed();
 	m_smoothed_speed = f*m_speed + (1.0f - f)*m_smoothed_speed;
 }
+

@@ -140,7 +140,6 @@ private:
 
     /** The referee scene node. */
     Referee *m_referee;
-    
 
 protected:
     /** Material for the 'plunger in the face' texture. */
@@ -244,7 +243,22 @@ public:
     virtual void drawEnergyMeter(int x, int y, const AbstractKart *kart,
                                  const core::recti &viewport,
                                  const core::vector2df &scaling) {};
+	//JASON: flash box
+	int              frame_count;
+	float			 time;
 
+	int screen_width;
+	int screen_height;
+
+	bool useColorflashBox;
+
+	struct ColoredBox {
+		video::SColor color;
+		core::rect<s32> pos;
+	};
+
+	ColoredBox flash_box;
+	ColoredBox center_box;
 };   // RaceGUIBase
 
 #endif

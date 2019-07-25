@@ -555,9 +555,10 @@ void SkiddingAI::handleSteering(float dt)
 
         // Potentially adjust the point to aim for in order to either
         // aim to collect item, or steer to avoid a bad item.
+		/*
         if(m_ai_properties->m_collect_avoid_items)
             handleItemCollectionAndAvoidance(&aim_point, last_node);
-
+			*/
         steer_angle = steerToPoint(aim_point);
     }  // if m_current_track_direction!=LEFT/RIGHT
 
@@ -2462,3 +2463,13 @@ void SkiddingAI::setSteering(float angle, float dt)
 
 
 }   // setSteering
+
+
+
+void SkiddingAI::handleZipper(bool play_sound)
+{
+	{
+		m_kart->showZipperFire();
+	}   // handleZipper
+
+}   // handleZipper

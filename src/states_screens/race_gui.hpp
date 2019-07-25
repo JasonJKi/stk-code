@@ -116,15 +116,7 @@ private:
 
 	/** Height of the digit font. */
 
-	int              frame_count;
-	float			 time;
-
-	int screen_width;
-	int screen_height;
-
-	
-
-public:
+	public:
 
          RaceGUI();
         ~RaceGUI();
@@ -137,13 +129,7 @@ public:
     virtual const core::dimension2du getMiniMapSize() const
                   { return core::dimension2du(m_map_width, m_map_height); }
 
-	struct ColoredBox {
-		video::SColor color;
-		core::rect<s32> pos;
-	};
-
-	ColoredBox flash_box;
-	ColoredBox center_box;
+	
 
 };   // RaceGUI
 

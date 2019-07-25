@@ -61,10 +61,11 @@ class TrackInfoScreen : public GUIEngine::Screen,
     GUIEngine::CheckBoxWidget* m_option;
 	
 	/** Check box to activate ai_controller. */
-	GUIEngine::CheckBoxWidget* m_ai_controller;
+	//GUIEngine::CheckBoxWidget* m_ai_controller;
 
 	/** Check box to for mock bci. */
-	GUIEngine::SpinnerWidget*  m_mock_bci_spinner;
+	GUIEngine::SpinnerWidget*  m_replay_spinner;
+	GUIEngine::CheckBoxWidget* m_replay;
 
 	GUIEngine::CheckBoxWidget* m_mock_bci_run_1;
 	GUIEngine::CheckBoxWidget* m_mock_bci_run_2;

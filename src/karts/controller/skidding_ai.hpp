@@ -248,6 +248,7 @@ private:
     void  handleRescue(const float dt);
     void  handleBraking();
     void  handleNitroAndZipper();
+
     void  computeNearestKarts();
     void  handleItemCollectionAndAvoidance(Vec3 *aim_point,
                                            int last_node);
@@ -277,9 +278,13 @@ protected:
 public:
                  SkiddingAI(AbstractKart *kart);
                 ~SkiddingAI();
+
+				
     virtual void update      (float delta) ;
     virtual void reset       ();
     virtual const irr::core::stringw& getNamePostfix() const;
+	virtual void handleZipper(bool play_sound) OVERRIDE;
+
 };
 
 #endif

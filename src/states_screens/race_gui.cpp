@@ -163,27 +163,6 @@ void RaceGUI::init()
     m_rank_animation_duration.resize(n);
     m_last_ranks.resize(n);
 
-	frame_count = 0;
-	time = 0.00f;
-
-	screen_width = round(irr_driver->getActualScreenSize().Width);
-	screen_height = round(irr_driver->getActualScreenSize().Height);
-
-	// flash_box positioned on top right corner of the screen.
-	int pos_left = (int) screen_width - (screen_width / 30);
-	int pos_right = (int) screen_width;
-	int pos_top = 0;
-	int pos_bottom = screen_height / 25;
-	flash_box.pos = core::rect<s32>(pos_left, pos_top, pos_right, pos_bottom);
-
-	// center_box positioned at the center of screen.
-	int offset = (int) round(screen_width / 35);
-	pos_left = (int) (screen_width / 2) - offset;
-	pos_right = (int) (screen_width / 2) + offset;
-	pos_top = (int) (screen_height / 2) - offset;
-	pos_bottom = (int) (screen_height / 2) + offset;
-	center_box.pos = core::rect<s32>(pos_left, pos_top, pos_right, pos_bottom);
-
 }   // init
 
 //-----------------------------------------------------------------------------
@@ -235,10 +214,17 @@ void RaceGUI::renderGlobal(float dt)
     {
         drawGlobalReadySetGo();
     }
+
     if(world->getPhase() == World::GOAL_PHASE)
             drawGlobalGoal();
     // Timer etc. are not displayed unless the game is actually started.
-    if(!world->isRacePhase()) return;
+	if (!world->isRacePhase())
+	{
+		flash_box.color = video::SColor(255, 0, 0, 0);
+		GL32_draw2DRectangle(flash_box.color, flash_box.pos);
+		return;
+	}
+
     if (!m_enabled) return;
 
 	/*
@@ -260,36 +246,39 @@ void RaceGUI::renderGlobal(float dt)
     if (!m_is_tutorial)               drawGlobalPlayerIcons(m_map_height);
     if(Track::getCurrentTrack()->isSoccer()) drawScores();
 	*/
-	
+
 	frame_count++;
 	time = time + dt;
-	int frameRate = 60;
-	int numFlashFrames = round(frameRate / 4);
+	int frame_rate = 34;
+	int num_flash_frames = round(20);
 
 	// Jason: Show Flash Screen on top right of the screen to trigger photodiode;
-	if (frame_count == 1 || (frame_count % frameRate) < numFlashFrames) {
+	if (frame_count == 1 || (frame_count % frame_rate) < num_flash_frames) {
 		flash_box.color = video::SColor(255, 255, 255, 255);
-	} else {
+	}
+	else {
 		flash_box.color = video::SColor(255, 0, 0, 0);
 	}
 	GL32_draw2DRectangle(flash_box.color, flash_box.pos);
 
-
 	// Jason: Show colored box at the cetner of the screen with changing box colors.
-	int boxChangeRate = frameRate * 3;
-	int	boxFrameDuration = round(boxChangeRate / 4);
 
-	if ((frame_count % boxChangeRate) < boxFrameDuration *1 ) {
-		center_box.color = video::SColor(0, 255, 255, 0);
-	} else if ((frame_count % boxChangeRate) < boxFrameDuration * 2) {
-		center_box.color = video::SColor(255, 0, 255, 255);
-	} else if ((frame_count % boxChangeRate) < boxFrameDuration * 3) {
-		center_box.color = video::SColor(255, 255, 255, 0);
-	} else if ((frame_count % boxChangeRate) < boxFrameDuration * 4) {
-		center_box.color = video::SColor(255, 255, 0, 255);
-	}
+	if (useColorflashBox) {
+		int boxChangeRate = frame_rate * 3;
+		int	boxFrameDuration = round(boxChangeRate / 4);
+
+		if ((frame_count % boxChangeRate) < boxFrameDuration *1 ) {
+			center_box.color = video::SColor(0, 255, 255, 0);
+		} else if ((frame_count % boxChangeRate) < boxFrameDuration * 2) {
+			center_box.color = video::SColor(255, 0, 255, 255);
+		} else if ((frame_count % boxChangeRate) < boxFrameDuration * 3) {
+			center_box.color = video::SColor(255, 255, 255, 0);
+		} else if ((frame_count % boxChangeRate) < boxFrameDuration * 4) {
+			center_box.color = video::SColor(255, 255, 0, 255);
+		}
 	
-	GL32_draw2DRectangle(center_box.color, center_box.pos);
+		GL32_draw2DRectangle(center_box.color, center_box.pos);
+	}
 
 #endif
 }   // renderGlobal

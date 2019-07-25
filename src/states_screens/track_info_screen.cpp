@@ -66,24 +66,28 @@ TrackInfoScreen::TrackInfoScreen()
 /* Saves some often used pointers. */
 void TrackInfoScreen::loadedFromFile()
 {
-    m_lap_spinner      = getWidget<SpinnerWidget>("lap-spinner");
-    m_ai_kart_spinner  = getWidget<SpinnerWidget>("ai-spinner");
-	m_mock_bci_spinner = getWidget<SpinnerWidget>("mock-bci-spinner");
+    m_lap_spinner		= getWidget<SpinnerWidget>("lap-spinner");
+    m_ai_kart_spinner	= getWidget<SpinnerWidget>("ai-spinner");
+	m_replay_spinner	= getWidget<SpinnerWidget>("replay-spinner");
 
 	m_option			= getWidget<CheckBoxWidget>("option");
-	m_ai_controller		= getWidget<CheckBoxWidget>("ai controller");
-    m_record_race		= getWidget<CheckBoxWidget>("record");
+	//m_ai_controller		= getWidget<CheckBoxWidget>("ai controller");
+    m_record_race		= getWidget<CheckBoxWidget>("record-button");
+	m_replay			= getWidget<CheckBoxWidget>("replay-button");
 	m_mock_bci			= getWidget<CheckBoxWidget>("mock-bci-button");
-	m_mock_bci_run_1	= getWidget<CheckBoxWidget>("mock bci 1");
-	m_mock_bci_run_2	= getWidget<CheckBoxWidget>("mock bci 2");
+	//m_mock_bci_run_1	= getWidget<CheckBoxWidget>("mock bci 1");
+	//m_mock_bci_run_2	= getWidget<CheckBoxWidget>("mock bci 2");
 
     //m_option->setState(false);
 	//m_mock_bci_run_1->setState(false);
 	//m_mock_bci_run_2->setState(false);
+
+	//m_ai_controller->setState(false);
 	m_mock_bci->setState(false);
-	m_ai_controller->setState(false);
+	m_replay->setState(false);
+
     m_record_race->setState(false);
-	
+
     m_highscore_label = getWidget<LabelWidget>("highscores");
 
     m_kart_icons[0] = getWidget<IconButtonWidget>("iconscore1");
@@ -211,9 +215,9 @@ void TrackInfoScreen::init()
     else
         race_manager->setNumKarts(local_players);
 	
-	// mock bci replay number m_mock_bci_spinner
+	// mock bci replay number m_replay_spinner
 	// -----------------------
-	m_mock_bci_spinner->setVisible(1);
+	m_replay_spinner->setVisible(1);
 	getWidget<LabelWidget>("bci-text")->setVisible(1);
 	int num_replay_file = ReplayPlay::get()->getNumReplayFile();
 	if (num_replay_file == 0)
@@ -222,10 +226,9 @@ void TrackInfoScreen::init()
 		num_replay_file = ReplayPlay::get()->getNumReplayFile();
 	}
 
-	m_mock_bci_spinner->setMin(0);
-	m_mock_bci_spinner->setMax(num_replay_file);
-	m_mock_bci_spinner->setValue(0);
-	m_mock_bci->setVisible(1);
+	m_replay_spinner->setMin(0);
+	m_replay_spinner->setMax(num_replay_file);
+	m_replay_spinner->setValue(0);
 	/*
     // Reverse track or random item in arena
     // -------------
@@ -266,9 +269,11 @@ void TrackInfoScreen::init()
 	getWidget<LabelWidget>("trial-2")->setVisible(1);
 	getWidget<LabelWidget>("trial-2")->setText(_("2"), false);
 	*/
-	m_ai_controller->setVisible(1);
-	getWidget<LabelWidget>("ai-controller-text")->setVisible(1);
-	getWidget<LabelWidget>("ai-controller-text")->setText(_("AI Controller"), false);
+	//m_ai_controller->setVisible(1);
+	m_mock_bci->setVisible(1);
+	m_replay ->setVisible(1);
+	//getWidget<LabelWidget>("ai-controller-text")->setVisible(1);
+	//getWidget<LabelWidget>("ai-controller-text")->setText(_("AI Controller"), false);
     // Record race or not
     // -------------
 	//const bool record_available = race_manager->getMinorMode() == RaceManager::MINOR_MODE_TIME_TRIAL;
@@ -459,10 +464,7 @@ void TrackInfoScreen::eventCallback(Widget* widget, const std::string& name,
 			updateHighScores();
 		}
 	}
-	else if (name == "ai controller") {
-		race_manager->setAIController(m_ai_controller->getState());
-	}
-	else if (name == "record")
+	else if (name == "record-button")
 	{
 		const bool record = m_record_race->getState();
 		m_record_this_race = record;
@@ -498,9 +500,9 @@ void TrackInfoScreen::eventCallback(Widget* widget, const std::string& name,
         UserConfigParams::m_num_karts = race_manager->getNumLocalPlayers() + num_ai;
         updateHighScores();
     }
-	else if (name == "mock-bci-spinner") 
+	else if (name == "replay-spinner") 
 	{
-		const int num_replay = m_mock_bci_spinner->getValue();
+		const int num_replay = m_replay_spinner->getValue();
 		if (num_replay == 0)
 		{
 			race_manager->setWatchingReplay(false);
@@ -520,6 +522,17 @@ void TrackInfoScreen::eventCallback(Widget* widget, const std::string& name,
 			PlayerManager::getCurrentPlayer()->setCurrentChallenge("");
 		}
 	}
+	else if (name == "replay-button1"){
+		race_manager->setAIController(m_replay->getState());
+	}
+	else if (name == "mock-bci-button1"){
+		race_manager->setAIController(m_mock_bci->getState());
+	}
+	/*
+	else if (name == "ai controller") {
+		race_manager->setAIController(m_ai_controller->getState());
+	}
+	*/
 }   // eventCallback
 
 // ----------------------------------------------------------------------------

@@ -1870,7 +1870,6 @@ void Track::loadTrackModel(bool reverse_track, unsigned int mode_id)
     const bool arena_random_item_created =
         ItemManager::get()->randomItemsForArena(m_start_transforms);
 
-	/*
     if (!arena_random_item_created)
     {
         for (unsigned int i=0; i<root->getNumNodes(); i++)
@@ -1885,7 +1884,7 @@ void Track::loadTrackModel(bool reverse_track, unsigned int mode_id)
             }
         }   // for i<root->getNumNodes()
     }
-	*/
+
     delete root;
 
     if (UserConfigParams::m_track_debug && Graph::get() && !m_is_cutscene)
