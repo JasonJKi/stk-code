@@ -117,7 +117,7 @@ RaceGUIBase::RaceGUIBase()
 
 	time = 0.00f;
 
-	useColorflashBox = false;
+	useColorflashBox = true;
 
 	// center_box positioned at the center of screen.
 	int offset = (int)round(screen_width / 50);

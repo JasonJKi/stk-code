@@ -249,8 +249,8 @@ void RaceGUI::renderGlobal(float dt)
 
 	frame_count++;
 	time = time + dt;
-	int frame_rate = 34;
-	int num_flash_frames = round(20);
+	int frame_rate = 20;
+	int num_flash_frames = 5;
 
 	// Jason: Show Flash Screen on top right of the screen to trigger photodiode;
 	if (frame_count == 1 || (frame_count % frame_rate) < num_flash_frames) {
@@ -279,7 +279,6 @@ void RaceGUI::renderGlobal(float dt)
 	
 		GL32_draw2DRectangle(center_box.color, center_box.pos);
 	}
-
 #endif
 }   // renderGlobal
 
